@@ -10,7 +10,7 @@ console.log("Listening for UDP traffic on port " + router.listen_port);
 server.on('message',function(msg, rinfo){
 	console.log('recieved from client: ' + msg);
 	console.log("sending to " + router.ip_address + ":" + router.send_port);
-	client.send(Buffer.from(msg + ',ID=' + router.id), router.send_port, router.ip_address);
+	client.send(Buffer.from('>RTR,ID=' + router.id + ',' + msg ), router.send_port, router.ip_address);
 });
 
 server.bind(router.listen_port);
