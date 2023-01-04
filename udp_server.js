@@ -3,10 +3,15 @@ var dgram = require('dgram');
 var server = dgram.createSocket('udp4');
 var client = dgram.createSocket('udp4');
 
+const router = require ('./router.json');
+console.log("GPS Identifier: " + router.id);
+console.log("Listening for UDP traffic on port " + router.listen_port);
+
 server.on('message',function(msg, rinfo){
-	console.log('I received this message from client: ' + msg);
-	client.send(Buffer.from(msg), 9999, 'dyer911.tailorbuilt.software');
+	console.log('recieved from client: ' + msg);
+	console.log("sending to " + router.ip_address + ":" + router.send_port);
+	client.send(Buffer.from(msg + ',ID=' . router.id), router.send_port, router.ip_address);
 });
 
-server.bind(9090);
+server.bind(router.listen_port);
 
